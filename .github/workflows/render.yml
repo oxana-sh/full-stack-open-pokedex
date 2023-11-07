@@ -1,5 +1,5 @@
 name: My Deploy
-# some comment  ШЫ...
+# some comment  IS...
 on:
   push:
     branches: [ master ]
