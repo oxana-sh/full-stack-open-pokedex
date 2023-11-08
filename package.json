@@ -7,7 +7,7 @@
     "start": "webpack-dev-server --open --mode development",
     "start-prod": "node app.js",
     "test": "jest",
-    "test:e2e": "cypress run",
+    "test:e2e": "cypress run --browser chrome --spec 'cypress/e2e/pokemon.cy.js'",
     "eslint": "eslint './**/*.{js,jsx}'",
     "build": "webpack --mode production"
   },
