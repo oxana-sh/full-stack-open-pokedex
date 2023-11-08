@@ -3,23 +3,25 @@ name: Deployment pipeline
 on:
   push:
     branches:
-      #- master
-      - feature/*
-      # note that your "main" branch might be called main instead of master
+      - master
+  pull_request:
+    branches: [master]
+    types: [opened, synchronize]
 
 jobs:
   simple_deployment_pipeline:
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
       - name: Install dependencies 
         run: npm install
       - name: Check style
         run: npm run eslint
-
       - name: e2e tests
         uses: cypress-io/github-action@v5
         with:
@@ -27,4 +29,24 @@ jobs:
           build: npm run build
           start: npm run start-prod
           wait-on: http://127.0.0.1:5000
-          
+
+  tag_release:
+    needs: [simple_deployment_pipeline]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to production
+        if: ${{ github.event_name == 'push' }}
+        uses: johnbeynon/render-deploy-action@v0.0.8
+        with:
+          service-id: srv-${{ secrets.RENDER_SERVICE_ID }}
+          api-key: ${{ secrets.RENDER_TOKEN }} 
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0           
+      - name: Bump version and push tag
+        if: ${{ github.event_name == 'push' }}
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
