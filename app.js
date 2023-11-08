@@ -5,8 +5,8 @@ const app = express()
 const PORT = process.env.PORT || 8080
 
 app.get('/health', (req, res) => {
-  res.status(200).send('ok');
-});
+  res.status(200).send('ok')
+})
 
 app.use(express.static('dist'))
 
