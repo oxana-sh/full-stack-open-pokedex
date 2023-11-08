@@ -29,8 +29,7 @@ jobs:
           start: npm run start-prod
           command: npm run test:e2e
           wait-on: http://localhost:5000
-      - name: Check Cypress version
-        run: npx cypress --version
+      
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
