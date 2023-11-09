@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: commits
         env:
-          COMMITS: ${{ toJson(github.event.commits) }}
+          COMMITS: ${{ toJson(github) }}
         run: echo "$COMMITS"
             
       - name: Deploy to production
