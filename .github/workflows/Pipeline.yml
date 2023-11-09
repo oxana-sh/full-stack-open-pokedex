@@ -35,7 +35,7 @@ jobs:
         if: failure()
         with:
             severity: error
-            details: "Commit ${{ github.event.head_commit.url}}) by ${{ github.actor }} broke the build :("
+            details: "Commit ${{ github.event.pull_request.html_url || github.event.head_commit.url  }} by ${{ github.actor }} broke the build :("
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}   
   tag_release:
     needs: [simple_deployment_pipeline]
@@ -73,5 +73,5 @@ jobs:
         if: failure()
         with:
             severity: error
-            details: Built Failed!
+            details: "Commit ${{ github.event.pull_request.html_url || github.event.head_commit.url  }} by ${{ github.actor }} broke the build :("
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}    
