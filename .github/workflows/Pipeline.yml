@@ -35,7 +35,7 @@ jobs:
         if: failure()
         with:
             severity: error
-            details: Build Failed!
+            details: "Commit [${{ github.sha }}](${{ github.event.commits_url }}) by ${{ github.actor }} broke the build :("
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}   
   tag_release:
     needs: [simple_deployment_pipeline]
