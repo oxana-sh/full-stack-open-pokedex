@@ -29,6 +29,11 @@ jobs:
           start: npm run start-prod
           command: npm run test:e2e
           wait-on: http://localhost:5000
+      - name: commits
+        env:
+          COMMITS: ${{ toJson(github) }}
+        run: echo "$COMMITS"    
+        
       - name: Test Failure
         uses: rjstone/discord-webhook-notify@v1
         if: failure()
@@ -40,10 +45,7 @@ jobs:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-latest
     steps:
-      - name: commits
-        env:
-          COMMITS: ${{ toJson(github) }}
-        run: echo "$COMMITS"
+      
             
       - name: Deploy to production
         if: ${{ contains(fromJSON('["push"]'), github.event_name) && !contains(join(github.event.commits.*.message, ' '), '#skip') }}
