@@ -40,7 +40,7 @@ jobs:
         run: echo "$COMMITS"
             
       - name: Deploy to production
-        if: ${{ contains(fromJSON('["push"]'), github.event_name) && !contains(fromJSON(github.event.commits[0].message), '#skip') }}
+        if: ${{ contains(fromJSON('["push"]'), github.event_name) && !contains(github.event.commits.*.message, '#skip') }}
         uses: johnbeynon/render-deploy-action@v0.0.8
         with:
           service-id: srv-${{ secrets.RENDER_SERVICE_ID }}
@@ -50,7 +50,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Bump version and push tag
-        if: ${{ contains(fromJSON('["push"]'), github.event_name) && !contains(fromJSON(github.event.commits[0].message), '#skip') }}
+        if: ${{ contains(fromJSON('["push"]'), github.event_name) && !contains(github.event.commits.*.message, '#skip') }}
         uses: anothrNick/github-tag-action@1.64.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
