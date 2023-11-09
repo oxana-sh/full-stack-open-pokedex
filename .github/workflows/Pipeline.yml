@@ -20,11 +20,6 @@ jobs:
           node-version: '16'
       - name: Install dependencies 
         run: npm install
-      - name: commits
-        env:
-          COMMITS: ${{ toJson(github) }}        
-        run: echo "$COMMITS"  
-        
       - name: Check style
         run: npm run eslint
       - name: e2e tests
@@ -33,15 +28,15 @@ jobs:
           build: npm run build
           start: npm run start-prod
           command: npm run test:e2e
-          wait-on: http://localhost:5000
-       
+          wait-on: http://localhost:5000      
 
       - name: Test Failure
         uses: rjstone/discord-webhook-notify@v1
         if: failure()
         with:
             severity: error
-            details: Test Failed!
+            details: Build Failed!
+            text: ${{ github.event.pull_request.commits_url }} by ${{ github.repository_owner }}
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}   
   tag_release:
     needs: [simple_deployment_pipeline]
