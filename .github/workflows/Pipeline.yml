@@ -23,7 +23,7 @@ jobs:
       - name: Check style
         run: npm run eslint
       - name: e2e tests
-        uses: cypress-io/github-action@v5
+        uses: cypress-io/github-action@v6
         with:                 
           build: npm run build
           start: npm run start-prod
@@ -50,3 +50,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           WITH_V: true
+          DEFAULT_BUM: patch
