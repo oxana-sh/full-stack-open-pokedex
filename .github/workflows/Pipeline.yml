@@ -35,7 +35,7 @@ jobs:
         if: failure()
         with:
             severity: error
-            details: "Commit [${{ github.sha }}](${{ github.event.commits_url }}) by ${{ github.actor }} broke the build :("
+            details: "Commit ${{ github.event.head_commit.url}}) by ${{ github.actor }} broke the build :("
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}   
   tag_release:
     needs: [simple_deployment_pipeline]
@@ -65,8 +65,9 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
-          details: New version gets deployed
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}    
+          details: New version Pekedex deployed
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}  
+
       - name: Test Failure
         uses: rjstone/discord-webhook-notify@v1
         if: failure()
