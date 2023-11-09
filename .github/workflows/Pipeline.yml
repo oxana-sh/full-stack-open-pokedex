@@ -36,7 +36,6 @@ jobs:
         with:
             severity: error
             details: Build Failed!
-            text: ${{ github.event.pull_request.commits_url }} by ${{ github.repository_owner }}
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}   
   tag_release:
     needs: [simple_deployment_pipeline]
@@ -73,5 +72,5 @@ jobs:
         if: failure()
         with:
             severity: error
-            details: Test Failed!
+            details: Built Failed!
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}    
