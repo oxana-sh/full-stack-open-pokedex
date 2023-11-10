@@ -35,7 +35,7 @@ jobs:
         if: failure()
         with:
             severity: error
-            details: "Commit ${{ github.event.pull_request.html_url || github.event.head_commit.url  }} by ${{ github.actor }} broke the build :("
+            details: "Commit ${{ github.event.head_commit.url || github.event.pull_request.commits_url }} by ${{ github.actor }} broke the build :("
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}   
   tag_release:
     needs: [simple_deployment_pipeline]
@@ -65,7 +65,7 @@ jobs:
         uses: rjstone/discord-webhook-notify@v1
         with:
           severity: info
-          details: New version Pekedex deployed
+          description: to https://deploy-test-15l8.onrender.com/ by ${{ github.event.pusher.name }}
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}  
 
       - name: Test Failure
@@ -73,5 +73,5 @@ jobs:
         if: failure()
         with:
             severity: error
-            details: "Commit ${{ github.event.pull_request.html_url || github.event.head_commit.url  }} by ${{ github.actor }} broke the build :("
+            details: "Commit ${{ github.event.head_commit.url || github.event.pull_request.commits_url }} by ${{ github.actor }} broke the build :("
             webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}    
