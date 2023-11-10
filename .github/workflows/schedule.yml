@@ -2,7 +2,7 @@ name: Check the deployed service URL
 
 on:
   schedule:
-     - cron: '05 6 * * *'
+     - cron: '15 6 * * *'
 
 jobs:
   health-check:
